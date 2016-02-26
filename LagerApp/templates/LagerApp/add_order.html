@@ -1,0 +1,30 @@
+{% extends request.is_ajax|yesno:"LagerApp/base_ajax.html,LagerApp/masterpage.html" %}
+{% block content %}
+    <div class="col-md-2 hidden-xs"></div>
+<div class="col-md-8 col-xs-12">
+
+    <form action="/transaction" method="POST" id="add_form"> {% csrf_token %}
+        <div class="form-group form-inline">
+            <input class="form-control" type="number" name="year" placeholder="Year"/>
+            <input class="form-control" type="number" name="month" placeholder="Month"/>
+            <input class="form-control" type="number" name="day" placeholder="Day"/>
+        </div>
+        <div class="form-group">
+            <select class="form-control" name="product">
+                <option value="jTelefon">jTelefon</option>
+                <option value="jPlatta">jPlatta</option>
+                <option value="klocka">Päronklocka</option>
+            </select>
+        </div>
+    <select class="form-control" name="warehouse">
+        <option value="Norrkoping">Norrköping</option>
+        <option value="Frankfurt">Frankfurt</option>
+        <option value="Cupertino">Cupertino</option>
+    </select>
+    <input class="form-control" type="number" name="quantity" placeholder="Quantity"/>
+    <input type="submit" class="btn btn-default" placeholder="Send">
+    </form>
+</div>
+
+
+{% endblock %}
