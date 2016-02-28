@@ -9,10 +9,10 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <td>Date</td>
-                        <td>Product</td>
-                        <td>Warehouse</td>
-                        <td>Quantity</td>
+                        <td><a href="?order_by=date">Date</a></td>
+                        <td><a href="?order_by=product__name">Product</a></td>
+                        <td><a href="?order_by=warehouse__name">Warehouse</a></td>
+                        <td><a href="?order_by=quantity">Quantity</a></td>
                     </tr>
                 </thead>
                 {% for sale in transactions %}

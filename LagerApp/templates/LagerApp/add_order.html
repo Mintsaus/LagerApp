@@ -5,6 +5,9 @@
     <div class="col-md-2 hidden-xs"></div>
     <div class="col-md-8 col-xs-12">
         <h1>Add a new transaction</h1>
+        {% if msg %}
+            <p class="msg">{{ msg }}</p>
+        {% endif %}
         <form action="/add/" method="POST" id="add_form" class="form-horizontal"> {% csrf_token %}
             <div class="form-group form-inline" id="add_date">
                 <select class="form-control" name="year" id="add_year">
@@ -81,7 +84,7 @@
             <div class="form-group">
                 <input class="form-control" type="number" name="quantity" placeholder="Quantity"/>
             </div>
-            <div class="col-md-12 col-xs-12">
+            <div class="col-md-2 col-md-offset-10 col-xs-4 col-xs-offset-4">
                 <input type="submit" class="btn btn-default" placeholder="Send">
             </div>
         </form>

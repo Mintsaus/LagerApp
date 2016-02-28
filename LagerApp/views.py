@@ -18,8 +18,12 @@ def startpage(request):
 
 @login_required()
 def transactions(request):
-    trans = Transactions.objects.order_by('-id')
-    paginator = Paginator(trans, 5)
+    order_by = request.GET.get('order_by')
+    if not order_by:
+        order_by = '-id'
+    print order_by
+    trans = Transactions.objects.order_by(order_by)
+    paginator = Paginator(trans, 10)
     page = request.GET.get('page')
     print page
     try:
@@ -33,7 +37,6 @@ def transactions(request):
 
 @login_required()
 def add_order(request):
-    #form = AddForm()
     if request.method == 'POST':
         print request.POST[u'product']
         prod = Product.objects.get(name=request.POST[u'product'])
@@ -44,7 +47,13 @@ def add_order(request):
         date = datetime.date(int(request.POST[u'year']), int(request.POST[u'month']), int(request.POST[u'day']))
         sale = Transactions.objects.create(product=prod, warehouse=wh, date=date, quantity=quant)
         sale.save()
-    return render(request, 'LagerApp/add_order.html')#, {'form': form})
+        if sale.pk:
+            msg = "Your transaction has been received, thank you!"
+        else:
+            msg = "Something went wrong, please make sure all fields are filled in properly"
+        return render(request, 'LagerApp/add_order.html', {'msg': msg})
+
+    return render(request, 'LagerApp/add_order.html', {'msg': ''})
 
 
 @login_required()
@@ -59,9 +68,6 @@ def saldo(request):
             quant = quant_dict.get('quantity__sum')
             saldos.append({'prod': p.name, 'warehouse': w.name, 'quant': quant})
 
-    print saldos
-    saldos = saldos[::-1] #Reverses order of array
-    print saldos
     return render(request, 'LagerApp/saldo.html', {'saldos': saldos})
 
 

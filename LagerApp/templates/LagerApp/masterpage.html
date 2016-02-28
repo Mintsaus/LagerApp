@@ -37,9 +37,9 @@
 
               <div class="collapse navbar-collapse" id="collapsable-nav">
                   <ul class="nav navbar-nav">
-                    <li><a href="/saldo/">Saldo</a></li>
                       <li class="active"><a href="/add/">New transaction</a></li>
                       <li><a href="/transactions/">Transactions</a></li>
+                  <li><a href="/saldo/">Saldo</a></li>
                       {% if user.is_authenticated %}
                           <li><p>Logged in as {{ user.username }}</p></li>
                           <li><a href="/logout/">Logout <span class="sr-only">(current)</span></a></li>

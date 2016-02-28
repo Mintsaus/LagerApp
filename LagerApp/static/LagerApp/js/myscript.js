@@ -2,7 +2,11 @@
  * Created by Ludwig on 2016-02-26.
  */
 
+var transactions_page;
+var transactions_order_by;
+
 $(function(){
+
     function set_default_date() {
         alert('set_date called');
         var $date = $('div#main form#add_form div#add_date');
@@ -28,13 +32,13 @@ $(function(){
 
     $('img#home_button').on('click', function(event){
         event.preventDefault();
-        $a = $(this).parent();
+        var $a = $(this).parent();
         $.get($a.attr('href'), function(data){
             $('div#main').html(data);
             window.history.pushState({'title': 'Home', 'href':$a.attr('href')}, 'Home', $a.attr('href'));
         });
         $('ul.navbar-nav li').removeClass('active');
-    })
+    });
 
     window.onpopstate = function(event){
         $.get(event.state.href, function(data){
@@ -60,9 +64,45 @@ $(function(){
     $('#main').on('click', '.paginator', function(event){
         event.preventDefault();
         var $a = $(this);
-        $.get($a.attr('href'), function(data){
+        var curl = window.location.search;
+        var order = '';
+        var url;
+
+        if(curl.includes('order_by') && curl.includes('page')){
+            var oindex = curl.indexOf('order_by');
+            var pindex = curl.indexOf('page');
+            var aindex = curl.indexOf('&');
+            if(oindex < pindex){
+                order = curl.substring(oindex, (aindex-1));
+            }else{
+                order = curl.substring(oindex);
+            }
+            url = $a.attr('href') + '&' + order;
+        }else if(curl.includes('order_by')){
+            order = curl.substring(1);
+            url = $a.attr('href') + '&' + order;
+        }else{
+            url = $a.attr('href');
+        }
+
+        $.get(url, function(data){
             $('div#main').html(data);
-            window.history.pushState({'title': $a.text(), 'href':$a.attr('href')}, $a.text(), $a.attr('href'));
+            window.history.pushState({'title': $a.text(), 'href':$a.attr('href')}, $a.text(), url);
+        });
+    });
+
+    $('div#main').on('change', 'form#add_form', function(){
+        $('p.msg').hide();
+    });
+
+    $('div#main').on('click', 'thead a', function(event){
+        event.preventDefault();
+        var $a = $(this);
+        transactions_order_by = $a.attr('href');
+        var url = $a.attr('href');
+        $.get(url, function(data){
+            $('div#main').html(data);
+            window.history.pushState({'title': $a.text(), 'href':url}, $a.text(), url);
         });
     });
 

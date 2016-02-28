@@ -28,3 +28,7 @@ select#add_year, select#add_month, select#add_day{
         display: inline-block;
     }
 }
+
+#main_navbar h2{
+    display: inline-block;
+}
