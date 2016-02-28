@@ -1,5 +1,5 @@
 from django import forms
-from .models import Sales
+from .models import Transactions
 
 
 class LoginForm(forms.Form):

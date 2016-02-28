@@ -17,3 +17,14 @@ ul.nav li p{
 img#home_button{
     width: 24px;
 }
+select#add_year, select#add_month, select#add_day{
+    width:auto;
+    display: inline-block;
+}
+
+@media (max-width: 768px) {
+    div#main form#add_form .form-control{
+        width:auto;
+        display: inline-block;
+    }
+}

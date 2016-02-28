@@ -8,13 +8,16 @@ from django.db import models
 
 
 class Product(models.Model):
+    prodnr = models.CharField(max_length=128)
     name = models.CharField(max_length=128)
+    price = models.IntegerField()
 
     def __str__(self):
         return self.name
 
 
 class Warehouse(models.Model):
+    nr = models.IntegerField()
     name = models.CharField(max_length=128)
     products = models.ManyToManyField(Product, through='Saldo')
 
@@ -30,10 +33,10 @@ class Saldo(models.Model):
         return self.warehouse.name + self.product.name
 
 
-class Sales(models.Model):
+class Transactions(models.Model):
     product = models.ForeignKey(Product)
     warehouse = models.ForeignKey(Warehouse)
-    date = models.DateTimeField()
+    date = models.DateField()
     quantity = models.IntegerField(blank=False)
     user = models.CharField(max_length=128)
 

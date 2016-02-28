@@ -3,15 +3,26 @@
  */
 
 $(function(){
-    $('ul.navbar-nav').on('click', 'li', function(event){
+    function set_default_date() {
+        alert('set_date called');
+        var $date = $('div#main form#add_form div#add_date');
+        var now = new Date();
+        $date.children('#add_year').children("option[value|=" + now.getFullYear() + "]").attr('selected', 'selected');
+    }
+
+    $('ul.navbar-nav').on('click', 'li a', function(event){
          event.preventDefault();
-        var $this = $(this);
-        var $a = $this.children("a");
-        $this.siblings().removeClass('active');
-        $this.addClass('active');
+        var $a = $(this);
+        var $li = $a.parent();
+        $li.siblings().removeClass('active');
+        $li.addClass('active');
         $.get($a.attr('href'), function(data){
             $('div#main').html(data);
             window.history.pushState({'title': $a.text(), 'href':$a.attr('href')}, $a.text(), $a.attr('href'));
+            if($.attr('href') == "/add/"){
+
+                set_default_date();
+            }
         });
     });
 
@@ -54,6 +65,7 @@ $(function(){
             window.history.pushState({'title': $a.text(), 'href':$a.attr('href')}, $a.text(), $a.attr('href'));
         });
     });
+
 
     /*
     $('#main').on('submit', function(e){
