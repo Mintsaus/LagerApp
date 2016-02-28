@@ -1,30 +1,45 @@
 {% extends request.is_ajax|yesno:"LagerApp/base_ajax.html,LagerApp/masterpage.html" %}
 {% block content %}
+    <div class="container">
+    <div class="row">
     <div class="col-md-2 hidden-xs"></div>
-<div class="col-md-8 col-xs-12">
+    <div class="col-md-8 col-xs-12">
 
-    <form action="/transaction" method="POST" id="add_form"> {% csrf_token %}
-        <div class="form-group form-inline">
-            <input class="form-control" type="number" name="year" placeholder="Year"/>
-            <input class="form-control" type="number" name="month" placeholder="Month"/>
-            <input class="form-control" type="number" name="day" placeholder="Day"/>
-        </div>
-        <div class="form-group">
-            <select class="form-control" name="product">
-                <option value="jTelefon">jTelefon</option>
-                <option value="jPlatta">jPlatta</option>
-                <option value="klocka">Päronklocka</option>
-            </select>
-        </div>
-    <select class="form-control" name="warehouse">
-        <option value="Norrkoping">Norrköping</option>
-        <option value="Frankfurt">Frankfurt</option>
-        <option value="Cupertino">Cupertino</option>
-    </select>
-    <input class="form-control" type="number" name="quantity" placeholder="Quantity"/>
-    <input type="submit" class="btn btn-default" placeholder="Send">
-    </form>
-</div>
+        <form action="/transaction/" method="POST" id="add_form" class="form-horizontal"> {% csrf_token %}
+            <div class="form-group form-inline">
+                <input class="form-control" type="number" name="year" placeholder="Year"/>
+                <input class="form-control" type="number" name="month" placeholder="Month"/>
+                <input class="form-control" type="number" name="day" placeholder="Day"/>
+            </div>
+            <div class="form-group">
+                <select class="form-control" name="product">
+                    <option value="jTelefon">jTelefon</option>
+                    <option value="jPlatta">jPlatta</option>
+                    <option value="klocka">Päronklocka</option>
+                </select>
+            </div>
+            <div class="form-group form-inline">
+                <select class="form-control" name="tofrom" id="tofrom">
+                    <option value="to">To</option>
+                    <option value="from">From</option>
+                </select>
 
+                <select class="form-control" name="warehouse" id="warehouse_select">
+                    <option value="Norrkoping">Norrköping</option>
+                    <option value="Frankfurt">Frankfurt</option>
+                    <option value="Cupertino">Cupertino</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="number" name="quantity" placeholder="Quantity"/>
+            </div>
+            <div class="col-md-12 col-xs-12">
+                <input type="submit" class="btn btn-default" placeholder="Send">
+            </div>
+        </form>
+
+    </div>
+    </div>
+    </div>
 
 {% endblock %}

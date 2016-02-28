@@ -1,0 +1,13 @@
+{% extends request.is_ajax|yesno:"LagerApp/base_ajax.html,LagerApp/masterpage.html" %}
+{% block content %}
+    <div class="container">
+      <div class="row">
+      <div class="col-md-2 hidden-xs"></div>
+          <div class="col-md-8">
+
+          <h1>Logged out, welcome back!</h1>
+              <a href="{% url 'login' %}">Log in again</a>
+          </div><!---Col-md-8----->
+      </div> <!---Row----->
+    </div>
+{% endblock %}

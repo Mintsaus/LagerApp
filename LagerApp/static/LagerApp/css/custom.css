@@ -1,0 +1,19 @@
+form#login_form{
+    margin: 50px auto;
+    width: 200px;
+}
+
+select#warehouse_select{
+    padding-right: 0px;
+    width: 59%;
+}
+select#tofrom{
+}
+
+ul.nav li p{
+    padding: 15px 15px 5px 15px;
+}
+
+img#home_button{
+    width: 24px;
+}

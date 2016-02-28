@@ -34,7 +34,7 @@ class Sales(models.Model):
     product = models.ForeignKey(Product)
     warehouse = models.ForeignKey(Warehouse)
     date = models.DateTimeField()
-    quantity = models.IntegerField
+    quantity = models.IntegerField(blank=False)
     user = models.CharField(max_length=128)
 
     def __str__(self):
