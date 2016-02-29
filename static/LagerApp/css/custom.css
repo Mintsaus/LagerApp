@@ -5,17 +5,10 @@ form#login_form{
 
 select#warehouse_select{
     padding-right: 0px;
-    display: inline-block;
-    width: 65%;
-    width: -webkit-calc(100% - 110px);
-    width: -moz-calc(100% - 110px);
-    width: calc(100% - 110px);
+    width: 59%;
 }
 select#tofrom{
-    max-width: 100px;
-    display: inline-block;
 }
-
 
 ul.nav li p{
     padding: 15px 15px 5px 15px;
@@ -29,12 +22,12 @@ select#add_year, select#add_month, select#add_day{
     display: inline-block;
 }
 
-/*@media (max-width: 768px) {*/
-    /*div#main form#add_form .form-control{*/
-        /*width:auto;*/
-        /*display: inline-block;*/
-    /*}*/
-/*}*/
+@media (max-width: 768px) {
+    div#main form#add_form .form-control{
+        width:auto;
+        display: inline-block;
+    }
+}
 
 #main_navbar h2{
     display: inline-block;

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render, redirect
 from .models import Product, Transactions, Warehouse
-import datetime
+from datetime import datetime
 from django.db.models import Sum
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
@@ -38,13 +38,12 @@ def transactions(request):
 @login_required()
 def add_order(request):
     if request.method == 'POST':
-        print request.POST[u'product']
+        date = datetime.strptime(request.POST[u'datepicker'], '%d-%m-%Y')
         prod = Product.objects.get(name=request.POST[u'product'])
         wh = Warehouse.objects.get(name=request.POST[u'warehouse'])
         quant = int(request.POST[u'quantity'])
         if request.POST[u'tofrom'] == 'from':
             quant = quant*(-1)
-        date = datetime.date(int(request.POST[u'year']), int(request.POST[u'month']), int(request.POST[u'day']))
         sale = Transactions.objects.create(product=prod, warehouse=wh, date=date, quantity=quant)
         sale.save()
         if sale.pk:

@@ -25,7 +25,7 @@ $(function(){
             $('div#main').html(data);
             window.history.pushState({'title': $a.text(), 'href':$a.attr('href')}, $a.text(), $a.attr('href'));
             if(window.location.pathname == '/add/'){
-                $( '#datepicker' ).datepicker({dateFormat: 'dd-mm-yy' });
+                $( '#datepicker' ).datepicker();
             }
         });
     });
@@ -107,9 +107,9 @@ $(function(){
     });
 
     $.datepicker.setDefaults(
-    $.extend( $.datepicker.regional[ 'swe' ] )
+    $.extend( $.datepicker.regional[ '' ] )
   );
-  $( '#datepicker' ).datepicker({dateFormat: 'dd-mm-yy' });
+  $( '#datepicker' ).datepicker();
 
 
 
