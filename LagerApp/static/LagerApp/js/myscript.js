@@ -7,6 +7,7 @@ var transactions_order_by;
 
 $(function(){
 
+    var $main = $('div#main');
     function set_default_date() {
         alert('set_date called');
         var $date = $('div#main form#add_form div#add_date');
@@ -46,7 +47,7 @@ $(function(){
 
     window.onpopstate = function(event){
         $.get(event.state.href, function(data){
-            $('div#main').html(data);
+            $main.html(data);
         });
 
         var $list = $('ul.navbar-nav li');
@@ -65,7 +66,7 @@ $(function(){
         $contains_title.parent().addClass('active');
     };
 
-    $('#main').on('click', '.paginator', function(event){
+    $main.on('click', '.paginator', function(event){
         event.preventDefault();
         var $a = $(this);
         var curl = window.location.search;
@@ -95,11 +96,11 @@ $(function(){
         });
     });
 
-    $('div#main').on('change', 'form#add_form', function(){
+    $main.on('change', 'form#add_form', function(){
         $('p.msg').hide();
     });
 
-    $('div#main').on('click', 'thead a', function(event){
+    $main.on('click', 'thead a', function(event){
         event.preventDefault();
         var $a = $(this);
         transactions_order_by = $a.attr('href');
@@ -110,13 +111,31 @@ $(function(){
         });
     });
 
+    $main.on('submit', 'form#add_form', function(event){
+        elements = this.elements;
+        var $form = $(this);
+        if(elements.datepicker.value == ''){
+            alert('connected' + elements.datepicker.value);
+            event.preventDefault();
+            $form.find("input[name='datepicker_msg']").removeClass('hidden').text("This field must be filled");
+        }
+        if(elements.quantity == ''){
+            event.preventDefault();
+            $form.find("input[name='datepicker_msg']").removeClass('hidden').text("This field must be filled");
+        }
+    });
+
+
+
     $.datepicker.setDefaults(
-    $.extend( $.datepicker.regional[ 'swe' ] )
-  );
-  $( '#datepicker' ).datepicker({
-      dateFormat: 'dd-mm-yy',
-      onClose: function(dateText, inst) { $(this).attr("disabled", false); },
-      beforeShow: function(dateText, inst) { $(this).attr("disabled", true); } });
+        $.extend( $.datepicker.regional[ 'swe' ] )
+    );
+
+    $( '#datepicker' ).datepicker({
+          dateFormat: 'dd-mm-yy',
+          onClose: function(dateText, inst) { $(this).attr("disabled", false); },
+          beforeShow: function(dateText, inst) { $(this).attr("disabled", true); } }
+    );
 
 
 

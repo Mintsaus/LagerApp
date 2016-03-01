@@ -39,20 +39,20 @@
               </div><!-----nav header-->
 
               <div class="collapse navbar-collapse" id="collapsable-nav">
+                  {% if user.is_authenticated %}
                   <ul class="nav navbar-nav">
                       <li class="active"><a href="/add/">New transaction</a></li>
                       <li><a href="/transactions/">Transactions</a></li>
-                  <li><a href="/saldo/">Saldo</a></li>
-                      {% if user.is_authenticated %}
-                          <li><p>Logged in as {{ user.username }}</p></li>
-                          <li><a href="/logout/">Logout <span class="sr-only">(current)</span></a></li>
-                      {% endif %}
+                      <li><a href="/saldo/">Saldo</a></li>
+                      <li><p>Logged in as {{ user.username }}</p></li>
+                      <li><a href="/logout/">Logout <span class="sr-only">(current)</span></a></li>
+                  {% endif %}
                   </ul><!---nav navbar-nav-------->
               </div><!---#collapsable-nav-------->
           </div><!---col-md-8-------->
       </div><!---container-------->
   </nav>
-  <div class="container-fluid" id="main">
+  <div class="container" id="main">
     {% block content %}
     {% endblock %}
   </div><!---Container----->

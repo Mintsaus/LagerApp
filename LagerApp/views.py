@@ -6,7 +6,7 @@ from django.db.models import Sum
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.contrib.auth import authenticate
-#from .forms import AddForm
+from .forms import AddForm
 
 # Create your views here.
 
@@ -39,6 +39,8 @@ def transactions(request):
     except EmptyPage:
         tosee = paginator.page(paginator.num_pages)
     return render(request, 'LagerApp/transactions.html', {'transactions': tosee})
+
+
 
 
 @login_required()
@@ -78,7 +80,24 @@ def saldo(request):
 
 
 
-
+# def add_form(request):
+#     if request.method == 'POST':
+#         form = AddForm(request.POST)
+#         if form.is_valid():
+#             trans = form.save(commit=False)
+#             trans.user = request.user
+#             trans.save()
+#             # date = form.cleaned_date['date']
+#             # wh = form.cleaned_date['warehouse']
+#             # prod = form.cleaned_date['prod']
+#             # quant = form.cleaned_date['quantity']
+#             #
+#             # trans = Transactions.objects.create(product=prod, warehouse=wh, date=date, quantity=quant)
+#             print trans
+#         return render(request, 'LagerApp/add_form.html', {'form': form})
+#     else:
+#         form = AddForm()
+#     return render(request, 'LagerApp/add_form.html', {'form': form})
 
 
 

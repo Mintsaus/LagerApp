@@ -1,3 +1,12 @@
+div.container#main{
+    background-color: #e2e2e2;
+    padding-bottom: 100px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    border: 1px solid #e7e7e7;
+}
+
 form#login_form{
     margin: 50px auto;
     width: 200px;
@@ -28,7 +37,9 @@ select#add_year, select#add_month, select#add_day{
     width:auto;
     display: inline-block;
 }
-
+thead{
+    font-weight: bolder;
+}
 /*@media (max-width: 768px) {*/
     /*div#main form#add_form .form-control{*/
         /*width:auto;*/
