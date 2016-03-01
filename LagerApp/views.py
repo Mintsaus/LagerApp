@@ -18,14 +18,20 @@ def startpage(request):
 
 @login_required()
 def transactions(request):
-    order_by = request.GET.get('order_by')
-    if not order_by:
-        order_by = '-id'
+    page = request.GET.get('page')
+    order_by = request.GET.get('order_by', 'id')
+    if not page:  #Don't want to flip order on each new page
+        old_order = request.session.get('old_order', 'id')
+        if order_by == old_order:
+            order_by = '-' + old_order
+            old_order = 'foobar'
+        else:
+            old_order = order_by
+        request.session['old_order'] = old_order
+
     print order_by
     trans = Transactions.objects.order_by(order_by)
     paginator = Paginator(trans, 10)
-    page = request.GET.get('page')
-    print page
     try:
         tosee = paginator.page(page)
     except PageNotAnInteger:
