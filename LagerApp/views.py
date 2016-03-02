@@ -13,7 +13,7 @@ def transactions(request):
     table can be sorted (desc or asc) according to any column """
     page = request.GET.get('page')
     order_by = request.GET.get('order_by', 'id')
-    if not page:  #Don't want to flip order on each new page
+    if not page and request.is_ajax():  #Don't want to flip order on each new page
         old_order = request.session.get('old_order', 'id')
         if order_by == old_order:
             order_by = '-' + old_order
@@ -57,8 +57,12 @@ def add_order(request):
         quant = int(request.POST[u'quantity'])
         if quant and request.POST[u'tofrom'] == 'from':
             quant = quant*(-1)
+        if request.user.is_authenticated():
+            user = request.user.username
+        else:
+            user = 'anonymous'
         if date and prod and wh and quant:
-            sale = Transactions.objects.create(product=prod, warehouse=wh, date=date, quantity=quant)
+            sale = Transactions.objects.create(product=prod, warehouse=wh, date=date, quantity=quant, user=user)
             sale.save()
             if sale.pk:
                 msg = "Your transaction has been received, thank you!"

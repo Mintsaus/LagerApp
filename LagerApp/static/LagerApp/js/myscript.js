@@ -8,12 +8,6 @@ var transactions_order_by;
 $(function(){
 
     var $main = $('div#main');
-    function set_default_date() {
-        alert('set_date called');
-        var $date = $('div#main form#add_form div#add_date');
-        var now = new Date();
-        $date.children('#add_year').children("option[value|=" + now.getFullYear() + "]").attr('selected', 'selected');
-    }
 
     $('ul.navbar-nav').on('click', 'li a', function(event){
          event.preventDefault();
@@ -112,7 +106,7 @@ $(function(){
     });
 
     $main.on('submit', 'form#add_form', function(event){
-        elements = this.elements;
+        var elements = this.elements;
         var $form = $(this);
         if(elements.datepicker.value == ''){
             alert('connected' + elements.datepicker.value);
@@ -137,19 +131,5 @@ $(function(){
           beforeShow: function(dateText, inst) { $(this).attr("disabled", true); } }
     );
 
-
-
-
-    /*
-    $('#main').on('submit', function(e){
-        e.preventDefault();
-        alert('jquery in myscript');
-        var $form = $('#add_form');
-        var data = $form.serialize();
-        $.post($form.attr('action'), data, function(){
-            alert("posted");
-        });
-    });
-*/
 });
 
