@@ -5,19 +5,12 @@ from datetime import datetime
 from django.db.models import Sum
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.contrib.auth import authenticate
-from .forms import AddForm
-
-# Create your views here.
-
-
-@login_required()
-def startpage(request):
-    return render(request, 'LagerApp/index.html')
 
 
 @login_required()
 def transactions(request):
+    """ This view shows the table of all transactions made.
+    table can be sorted (desc or asc) according to any column """
     page = request.GET.get('page')
     order_by = request.GET.get('order_by', 'id')
     if not page:  #Don't want to flip order on each new page
@@ -45,26 +38,39 @@ def transactions(request):
 
 @login_required()
 def add_order(request):
+    """ This view the form where new transactions can be made and
+    handles form posts and updates the db"""
     if request.method == 'POST':
-        date = datetime.strptime(request.POST[u'datepicker'], '%d-%m-%Y')
-        prod = Product.objects.get(name=request.POST[u'product'])
-        wh = Warehouse.objects.get(name=request.POST[u'warehouse'])
+        try:
+            date = datetime.strptime(request.POST[u'datepicker'], '%d-%m-%Y')
+            # dependant on correctly formatted datepicker
+        except ValueError:
+            msg = "Date input incorrect. "
+        try:
+            prod = Product.objects.get(name=request.POST[u'product'])
+        except Product.DoesNotExist:
+            msg = msg + 'Product is incorrect. '
+        try:
+            wh = Warehouse.objects.get(name=request.POST[u'warehouse'])
+        except Warehouse.DoesNotExist:
+            msg = msg + 'Warehouse is incorrect. '
         quant = int(request.POST[u'quantity'])
-        if request.POST[u'tofrom'] == 'from':
+        if quant and request.POST[u'tofrom'] == 'from':
             quant = quant*(-1)
-        sale = Transactions.objects.create(product=prod, warehouse=wh, date=date, quantity=quant)
-        sale.save()
-        if sale.pk:
-            msg = "Your transaction has been received, thank you!"
+        if date and prod and wh and quant:
+            sale = Transactions.objects.create(product=prod, warehouse=wh, date=date, quantity=quant)
+            sale.save()
+            if sale.pk:
+                msg = "Your transaction has been received, thank you!"
         else:
             msg = "Something went wrong, please make sure all fields are filled in properly"
         return render(request, 'LagerApp/add_order.html', {'msg': msg})
-
     return render(request, 'LagerApp/add_order.html', {'msg': ''})
 
 
 @login_required()
 def saldo(request):
+    """ This view shows the table of current warehouse stock"""
     products = Product.objects.all()
     warehouses = Warehouse.objects.all()
     saldos = []
@@ -76,30 +82,6 @@ def saldo(request):
             saldos.append({'prod': p.name, 'warehouse': w.name, 'quant': quant})
 
     return render(request, 'LagerApp/saldo.html', {'saldos': saldos})
-
-
-
-
-# def add_form(request):
-#     if request.method == 'POST':
-#         form = AddForm(request.POST)
-#         if form.is_valid():
-#             trans = form.save(commit=False)
-#             trans.user = request.user
-#             trans.save()
-#             # date = form.cleaned_date['date']
-#             # wh = form.cleaned_date['warehouse']
-#             # prod = form.cleaned_date['prod']
-#             # quant = form.cleaned_date['quantity']
-#             #
-#             # trans = Transactions.objects.create(product=prod, warehouse=wh, date=date, quantity=quant)
-#             print trans
-#         return render(request, 'LagerApp/add_form.html', {'form': form})
-#     else:
-#         form = AddForm()
-#     return render(request, 'LagerApp/add_form.html', {'form': form})
-
-
 
 
 
