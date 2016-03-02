@@ -38,7 +38,7 @@ def transactions(request):
         tosee = paginator.page(1)
     except EmptyPage:
         tosee = paginator.page(paginator.num_pages)
-    return render(request, 'LagerApp/transactions.html', {'transactions': tosee})
+    return render(request, 'LagerApp/transactions.html', {'transactions': tosee, 'order_by': order_by})
 
 
 

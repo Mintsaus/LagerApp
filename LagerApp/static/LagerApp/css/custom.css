@@ -50,3 +50,7 @@ thead{
 #main_navbar h2{
     display: inline-block;
 }
+
+.ui-icon{
+    display:inline-block;
+}

@@ -1,6 +1,5 @@
 {% extends request.is_ajax|yesno:"LagerApp/base_ajax.html,LagerApp/masterpage.html" %}
 {% block content %}
-    <div class="container">
       <div class="row">
       <div class="col-md-2 hidden-xs"></div>
           <div class="col-md-8 col-xs-12">
@@ -9,10 +8,22 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <td><a href="?order_by=date">Date</a></td>
-                        <td><a href="?order_by=product__name">Product</a></td>
-                        <td><a href="?order_by=warehouse__name">Warehouse</a></td>
-                        <td><a href="?order_by=quantity">Quantity</a></td>
+                        <td><a href="?order_by=date">Date<span class="
+                                {% if order_by == 'date' %}ui-icon ui-icon-triangle-1-n
+                                {% elif order_by == '-date' %} ui-icon ui-icon-triangle-1-s
+                                {% endif%}"></span></a></td>
+                        <td><a href="?order_by=product__name">Product<span class="
+                                {% if order_by == 'product__name' %}ui-icon ui-icon-triangle-1-n
+                                {% elif order_by == '-product__name' %} ui-icon ui-icon-triangle-1-s
+                                {% endif%}"></span></a></td>
+                        <td><a href="?order_by=warehouse__name">Warehouse<span class="
+                                {% if order_by == 'warehouse__name' %}ui-icon ui-icon-triangle-1-n
+                                {% elif order_by == '-warehouse__name' %} ui-icon ui-icon-triangle-1-s
+                                {% endif%}"></span></a></td>
+                        <td><a href="?order_by=quantity">Quantity<span class="
+                                {% if order_by == 'quantity' %}ui-icon ui-icon-triangle-1-n
+                                {% elif order_by == '-quantity' %} ui-icon ui-icon-triangle-1-s
+                                {% endif%}"></span></a></td>
                     </tr>
                 </thead>
                 {% for sale in transactions %}
@@ -41,5 +52,4 @@
           {% endif %}
           </div><!---Col-md-6----->
       </div> <!---Row----->
-    </div>
 {% endblock %}
