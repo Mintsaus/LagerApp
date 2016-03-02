@@ -2,13 +2,16 @@
  * Created by Ludwig on 2016-02-26.
  */
 
-var transactions_page;
-var transactions_order_by;
 
 $(function(){
 
     var $main = $('div#main');
 
+    /** Handles click-events on the navbar.
+     * Switches "active" tab, fetches new content with ajax-call and applies it to #main,
+     * pushes state to browser history and reapplies the datepicker
+     * for the "new transactions" page.
+     */
     $('ul.navbar-nav').on('click', 'li a', function(event){
          event.preventDefault();
         var $a = $(this);
@@ -29,6 +32,9 @@ $(function(){
         });
     });
 
+    /** Handles the home-button.
+     *  Clears "active" from all tabs, fetches new content with ajax-call and applies it to #main
+     */
     $('img#home_button').on('click', function(event){
         event.preventDefault();
         var $a = $(this).parent();
@@ -39,6 +45,11 @@ $(function(){
         $('ul.navbar-nav li').removeClass('active');
     });
 
+    /** Handles the back-button functionality of the browser
+     * Fetches previous state and calls corresponding route
+     * with an ajax-call and applies response to #main
+     * @param event
+     */
     window.onpopstate = function(event){
         $.get(event.state.href, function(data){
             $main.html(data);
@@ -54,12 +65,14 @@ $(function(){
         }else if(title === "New transaction"){
             $contains_title = $list.children('a:contains("New transaction")');
         }
-        console.log($list);
-        console.log($contains_title);
         $list.removeClass('active');
         $contains_title.parent().addClass('active');
     };
 
+    /** Handles the pages of the "Transactions" table
+     * Makes ajax GET call with information about sorting.
+     * Finds this information through the current url
+     */
     $main.on('click', '.paginator', function(event){
         event.preventDefault();
         var $a = $(this);
@@ -90,14 +103,19 @@ $(function(){
         });
     });
 
+    /**Clears the message from posting a new transaction when
+     * the user changes any field in the form.
+     */
     $main.on('change', 'form#add_form', function(){
         $('p.msg').hide();
     });
 
+    /** Handles the sorting by column for "transactions" table.
+     * Fetches data with ajax-call and applies it to #main.
+     */
     $main.on('click', 'thead a', function(event){
         event.preventDefault();
         var $a = $(this);
-        transactions_order_by = $a.attr('href');
         var url = $a.attr('href');
         $.get(url, function(data){
             $('div#main').html(data);
@@ -105,22 +123,29 @@ $(function(){
         });
     });
 
+
+    /** Very bare-bones form validation.
+     */
     $main.on('submit', 'form#add_form', function(event){
         var elements = this.elements;
         var $form = $(this);
+        var msg = '';
+        alert(elements.datepicker.value);
         if(elements.datepicker.value == ''){
-            alert('connected' + elements.datepicker.value);
+            alert('in datepicker.value');
             event.preventDefault();
-            $form.find("input[name='datepicker_msg']").removeClass('hidden').text("This field must be filled");
+            msg = msg + 'Date is required';
         }
         if(elements.quantity == ''){
             event.preventDefault();
-            $form.find("input[name='datepicker_msg']").removeClass('hidden').text("This field must be filled");
+            msg = msg + 'Quantity is required';
         }
+        $form.prepend('<p class=\"msg\">' + msg + '</p>');
     });
 
 
-
+    /**Initializes the datepicker on page load
+     */
     $.datepicker.setDefaults(
         $.extend( $.datepicker.regional[ 'swe' ] )
     );
